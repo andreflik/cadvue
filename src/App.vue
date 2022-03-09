@@ -1,6 +1,8 @@
 <template>
 	<div id="app" class="container">
 		<h1>Cadastro de Contatos</h1>
+		<b-alert show dismissible v-for="mensagem in mensagens" :key="mensagem.texto" :variant="mensagem.tipo">{{mensagem.texto}}</b-alert>
+
 		<b-card>
 			<b-form-group label="Nome:">
 				<b-form-input type="text" size="lg" v-model="usuario.nome" placeholder="Informe um nome"></b-form-input>
@@ -11,7 +13,9 @@
 			<b-button @click="salvar" size="lg" variant="primary">Salvar</b-button>
 			<b-button @click.prevent="obterUsuario" size="lg" variant="success" class="ml-2">Lista de Contatos</b-button>
 		</b-card>
+
 		<hr>
+
 		<b-list-group>
 			<b-list-group-item v-for="(usuario, id) in usuarios" :key="id">
 				<strong>Nome: </strong> {{usuario.nome}} <br>
@@ -30,6 +34,7 @@ export default {
 	
 	data() {
 		return {
+			mensagens: [],
 			usuarios: [],
 			id: null,
 			usuario: {
@@ -42,7 +47,8 @@ export default {
 		limpar() {
 			this.usuario.nome = ''
 			this.usuario.email = ''
-			this.id = null
+			this.id = null,
+			this.mensagens = []
 		},
 		carregar(id) {
 			this.id = id,
@@ -51,13 +57,24 @@ export default {
 		excluir(id) {
 			this.$http.delete(`/usuarios/${id}.json`)
 				.then(() => this.limpar())
+				.catch(() => {
+					this.mensagens.push({
+						texto: 'Falha ao excluir. Entre em contato com o Admnistrador',
+						tipo: 'danger'
+					})
+				})
 				
 		},
 		salvar() {
 			const metodo = this.id ? 'patch' : 'post'
 			const finalUrl = this.id ? `/${this.id}.json` : '.json'
 			this.$http[metodo](`/usuarios${finalUrl}`, this.usuario)
-				.then(() => {this.limpar()})
+				.then(() => {this.limpar()
+				this.mensagens.push({
+					texto: 'Operação realizada com sucesso !',
+					tipo: 'success'
+				})
+			})
 		},
 		
 		obterUsuario() {

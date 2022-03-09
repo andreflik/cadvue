@@ -1,29 +1,9 @@
 # CadVue
 
-## Project setup
-```
-npm install
-```
+### Começando o projeto
 
-### Compiles and hot-reloads for development
+1- Ao clonar o projeto rodar npm install --save axios
+2- Rodar o projeto com npm run serve
+3- No axios, colocar no baseUrl o caminho do seu banco Firebase
+4- Obrigado.
 ```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

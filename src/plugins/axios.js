@@ -3,28 +3,16 @@ import axios from 'axios'
 
 // axios.defaults.baseURL = 'https://cadvue-default-rtdb.firebaseio.com/'
 
+//Headrs Axios
+// axios.defaults.headers.common['Authorization'] = 'abc123'
+// axios.defaults.headers.get['Accepts'] = 'application/json'
+
 Vue.use({
     install(Vue){
         // Vue.prototype.$http = axios
         Vue.prototype.$http = axios.create({
-            baseURL: 'https://cadvue-default-rtdb.firebaseio.com/'
+            baseURL: 'https://cadvue-default-rtdb.firebaseio.com/',
+            
         })
-
-
-        // Interceptors - method
-        Vue.prototype.$http.interceptors.request.use(config => {
-            // console.log(config.method)
-            return config
-        }, error => Promise.reject(error))
-
-
-        Vue.prototype.$http.interceptors.response.use(res => {
-            const array = []
-            for (let chave in res.data) {
-                array.push({id: chave, ...res.data[chave]})
-            }
-            res.data = array
-            return res
-        }, error => Promise.reject(error))
     }
 })
